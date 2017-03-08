@@ -57,6 +57,7 @@ public class ActivityController {
         activity.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
         try {
             if (todoId != null) {
+                System.out.println("todo not null");
                 activity.setTodo(todoService.getTodoById(todoId));
             }
             if (projectId != null) {
@@ -130,7 +131,6 @@ public class ActivityController {
     @RequestMapping(value = "/activityDetail", method = RequestMethod.GET)
     public ResponseEntity<Activity> getActivityDetail(@RequestParam(value = "id") int Id) {
         LOG.log(Level.INFO, "Geting activity detail of activity with ID:: " + Id);
-
         try {
             Activity activity = activityService.getActivityByid(Id);
             //Seting loged and selected user

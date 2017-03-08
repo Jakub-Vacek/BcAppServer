@@ -28,7 +28,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String REALM = "Custom entry point realm";
+    //private static final String REALM = "Custom entry point realm";
     @Autowired
     UserDetailsService UserServiceImpl;
 
@@ -48,15 +48,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").hasAuthority("ADMIN")
                 .and()
                 .httpBasic()
-                .realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
+                //.realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
 
-    @Bean
-    public CustomEntryPoint getBasicAuthEntryPoint() {
-        return new CustomEntryPoint();
-    }
+//    @Bean
+//    public CustomEntryPoint getBasicAuthEntryPoint() {
+//        return new CustomEntryPoint();
+//    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

@@ -47,7 +47,7 @@ public class TodoController {
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todoDetail", method = RequestMethod.GET)
     public ResponseEntity<Todo> getTodoDetail(@RequestParam(value = "id") int id) {
-        LOG.log(Level.INFO, "Geting todos");
+        LOG.log(Level.INFO, "Geting detail of todo with id: " + id);
         Todo todo;
         try {
             todo = todoService.getTodoById(id);
@@ -119,6 +119,13 @@ public class TodoController {
     public ResponseEntity<Void> updateTodo(@RequestBody Todo todo, @RequestParam(value = "id", defaultValue = "0") int projectId) {
         LOG.log(Level.INFO, "Updating todo");
         try {
+            Todo todoFromDatabase = todoService.getTodoById(todo.getID());
+            if (todo.getCreatedOn() == null) {
+                todo.setCreatedOn(todoFromDatabase.getCreatedOn());
+            }
+            if (todo.getResolveUntil() == null) {
+                todo.setResolveUntil(todoFromDatabase.getResolveUntil());
+            }
             todo.setProject(projectService.getProjectById(projectId));
             todoService.updateTodo(todo);
             this.updateProjectStatus(projectId);
@@ -145,6 +152,7 @@ public class TodoController {
             todo.setProject(projectService.getProjectById(projectID));
             todoService.createTodo(todo);
             this.updateProjectStatus(projectID);
+            System.out.println(todo);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
