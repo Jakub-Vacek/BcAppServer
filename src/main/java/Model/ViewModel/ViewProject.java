@@ -1,7 +1,7 @@
 /**
  * @author jakubvacek
  */
-
+//Simplified model used in tables
 package Model.ViewModel;
 
 import Model.Project;

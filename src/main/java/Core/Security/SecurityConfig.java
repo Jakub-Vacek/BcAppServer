@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Core.Security;
 
 import java.util.Arrays;
@@ -28,10 +23,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //private static final String REALM = "Custom entry point realm";
     @Autowired
     UserDetailsService UserServiceImpl;
-
     
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,21 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("activity", "todo", "todoByList", "list", "listById", "listByUser").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("login","activity","activityDetail", "todo","todoDetail","todosOfProject", "projectsOfUser", "project", "projectDetail").hasAnyAuthority("USER", "ADMIN")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user").hasAuthority("ADMIN")
                 .and()
                 .httpBasic()
-                //.realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
-
-
-//    @Bean
-//    public CustomEntryPoint getBasicAuthEntryPoint() {
-//        return new CustomEntryPoint();
-//    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

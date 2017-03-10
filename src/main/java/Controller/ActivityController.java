@@ -57,7 +57,6 @@ public class ActivityController {
         activity.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
         try {
             if (todoId != null) {
-                System.out.println("todo not null");
                 activity.setTodo(todoService.getTodoById(todoId));
             }
             if (projectId != null) {
@@ -93,7 +92,6 @@ public class ActivityController {
         LOG.log(Level.INFO, "Geting view model activities of user with ID:: " + userId);
         ArrayList<Activity> activitis;
         ArrayList<ViewActivity> viewActivitis = new ArrayList<>();
-
         try {
             User logedUser = userService.getUserById(userId);
             User selectedUser;
@@ -104,7 +102,6 @@ public class ActivityController {
                 selectedUser = userService.getUserById(a.getSelectedUser().getID());
                 selectedUser.setPasswordHash("");
                 a.setSelectedUser(selectedUser);
-
                 if (a.getProject() != null) {
                     a.setProject(projectService.getProjectById(a.getProject().getID()));
                 }
@@ -113,7 +110,6 @@ public class ActivityController {
                 }
                 viewActivitis.add(new ViewActivity(a));
             }
-
             return new ResponseEntity<>(viewActivitis, HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
@@ -148,7 +144,6 @@ public class ActivityController {
             if (activity.getTodo() != null) {
                 activity.setTodo(todoService.getTodoById(activity.getTodo().getID()));
             }
-
             return new ResponseEntity<>(activity, HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
