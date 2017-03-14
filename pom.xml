@@ -92,5 +92,5 @@
             </plugin>
         </plugins>  
     </build>
-    <name>BachelorAppServerViewModels</name>
+    <name>BachelorAppServer</name>
 </project>
