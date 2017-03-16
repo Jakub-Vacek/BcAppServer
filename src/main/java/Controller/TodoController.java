@@ -6,7 +6,7 @@ package Controller;
 import Core.StatusException;
 import Model.Project;
 import Model.Todo;
-import Model.ViewModel.ViewTodo;
+import Model.TransferObject.TodoTo;
 import Service.ProjectServiceImpl;
 import Service.TodoServiceImpl;
 import Service.UserServiceImpl;
@@ -70,14 +70,14 @@ public class TodoController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todosOfProject", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<ViewTodo>> getTodosOProject(@RequestParam(value = "id") int projectId) {
+    public ResponseEntity<ArrayList<TodoTo>> getTodosOProject(@RequestParam(value = "id") int projectId) {
         LOG.log(Level.INFO, "Geting todos of project with id: " + projectId);
-        ArrayList<ViewTodo> todos;
+        ArrayList<TodoTo> todos;
         try {
             //Get items and map items to view models
             todos = todoService.getTodosOfProject(projectId)
                     .stream()
-                    .map(item -> new ViewTodo(item))
+                    .map(item -> new TodoTo(item))
                     .collect(Collectors.toCollection(ArrayList::new));
             return new ResponseEntity<>(todos, HttpStatus.OK);
         } catch (StatusException ex) {
@@ -115,7 +115,7 @@ public class TodoController {
      * @return ResponeseEntity with OK/NOT_FOUND status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/todo", method = RequestMethod.POST)
+    @RequestMapping(value = "/todo", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateTodo(@RequestBody Todo todo, @RequestParam(value = "id", defaultValue = "0") int projectId) {
         LOG.log(Level.INFO, "Updating todo");
         try {
@@ -144,7 +144,7 @@ public class TodoController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/todo", method = RequestMethod.PUT)
+    @RequestMapping(value = "/todo", method = RequestMethod.POST)
     public ResponseEntity<Void> createTodo(@RequestBody Todo todo, @RequestParam(value = "id", defaultValue = "0") int projectID) {
         LOG.log(Level.INFO, "Creating todo");
         try {
@@ -152,7 +152,6 @@ public class TodoController {
             todo.setProject(projectService.getProjectById(projectID));
             todoService.createTodo(todo);
             this.updateProjectStatus(projectID);
-            System.out.println(todo);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);

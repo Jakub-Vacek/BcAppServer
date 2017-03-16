@@ -5,7 +5,7 @@
 package Controller;
 
 import Core.StatusException;
-import Model.ViewModel.ViewUser;
+import Model.TransferObject.UserTo;
 import Service.UserServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,10 +33,10 @@ public class LoginController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity<ViewUser> login(@AuthenticationPrincipal final UserDetails user) {
+    public ResponseEntity<UserTo> login(@AuthenticationPrincipal final UserDetails user) {
         try {
             LOG.log(Level.INFO, "Trying to login");
-            return new ResponseEntity<>(new ViewUser(userService.getUserByUsername(user.getUsername())), HttpStatus.OK);
+            return new ResponseEntity<>(new UserTo(userService.getUserByUsername(user.getUsername())), HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null,ex);
             return new ResponseEntity<>(ex.status);

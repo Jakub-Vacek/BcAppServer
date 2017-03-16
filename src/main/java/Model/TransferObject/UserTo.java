@@ -2,19 +2,19 @@
  * @author jakubvacek
  */
 //Simplified model used in tables
-package Model.ViewModel;
+package Model.TransferObject;
 
 import Model.User;
 import java.sql.Timestamp;
 
-public class ViewUser {
+public class UserTo {
     private final int ID;
     private final String username;
     private final String role;
     private final String description;
     private final Timestamp createdOn;
     
-    public ViewUser(User user){
+    public UserTo(User user){
     this.ID = user.getID();
     this.username = user.getUsername();
     this.role = user.getRole();

@@ -2,12 +2,12 @@
  * @author jakubvacek
  */
 //Simplified model used in tables
-package Model.ViewModel;
+package Model.TransferObject;
 
 import Model.Todo;
 import java.sql.Timestamp;
 
-public class ViewTodo {
+public class TodoTo {
 
     private final int ID;
     private final String description;
@@ -16,7 +16,7 @@ public class ViewTodo {
     private final boolean resolved;
     private final double status;
 
-    public ViewTodo(Todo todo) {
+    public TodoTo(Todo todo) {
         this.ID = todo.getID();
         this.description = todo.getDescription();
         this.timeToFinish = todo.getTimeToFinish();

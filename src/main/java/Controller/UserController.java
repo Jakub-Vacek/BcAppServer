@@ -6,7 +6,7 @@ package Controller;
 import Core.StatusException;
 import Model.Project;
 import Model.User;
-import Model.ViewModel.ViewUser;
+import Model.TransferObject.UserTo;
 import Service.ProjectServiceImpl;
 import Service.TodoServiceImpl;
 import Service.UserServiceImpl;
@@ -45,15 +45,15 @@ public class UserController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<ViewUser>> getUsers() {
+    public ResponseEntity<ArrayList<UserTo>> getUsers() {
         LOG.log(Level.INFO, "Geting users");
-        ArrayList<ViewUser> users;
+        ArrayList<UserTo> users;
         try {
             //Get items and sort them acording to createdOn then map items to view models
             users = userService.getUsers()
                     .stream().sorted((first, second)
                             -> first.getCreatedOn().compareTo(second.getCreatedOn()))
-                    .map(item -> new ViewUser(item))
+                    .map(item -> new UserTo(item))
                     .collect(Collectors.toCollection(ArrayList::new));
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (StatusException ex) {
@@ -69,7 +69,7 @@ public class UserController {
      * @return id of created user
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/user", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody User user) {
         LOG.log(Level.INFO, "Creating user");
         try {

@@ -2,19 +2,19 @@
  * @author jakubvacek
  */
 //Simplified model used in tables
-package Model.ViewModel;
+package Model.TransferObject;
 
 import Model.Project;
 import java.sql.Timestamp;
 
-public class ViewProject {
+public class ProjectTo {
     private final int ID;
     private final String name;
     private final String description;
     private final Timestamp createdOn;
     private final double status;
     
-    public ViewProject(Project project){
+    public ProjectTo(Project project){
     this.ID = project.getID();
     this.name = project.getName();
     this.description = project.getDescription();

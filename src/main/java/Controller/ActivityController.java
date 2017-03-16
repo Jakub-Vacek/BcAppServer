@@ -6,7 +6,7 @@ package Controller;
 import Core.StatusException;
 import Model.Activity;
 import Model.User;
-import Model.ViewModel.ViewActivity;
+import Model.TransferObject.ActivityTo;
 import Service.ActivityServiceImpl;
 import Service.ProjectServiceImpl;
 import Service.TodoServiceImpl;
@@ -51,7 +51,7 @@ public class ActivityController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/activity", method = RequestMethod.PUT)
+    @RequestMapping(value = "/activity", method = RequestMethod.POST)
     public ResponseEntity<Void> createActivity(@RequestBody Activity activity, @RequestParam(value = "projectId", required = false) Integer projectId, @RequestParam(value = "todoId", required = false) Integer todoId, @RequestParam(value = "logedUserId") int logedUserId, @RequestParam(value = "selectedUserId") int selectedUserId) {
         LOG.log(Level.INFO, "Creating activity with todoID: " + todoId + ", projectId: " + projectId + ", logedUserID: " + logedUserId + " selectedUser " + selectedUserId + " activity message: " + activity.getDescription());
         activity.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
@@ -88,10 +88,10 @@ public class ActivityController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/activity", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<ViewActivity>> getActivitiesOfUser(@RequestParam(value = "id") int userId) {
+    public ResponseEntity<ArrayList<ActivityTo>> getActivitiesOfUser(@RequestParam(value = "id") int userId) {
         LOG.log(Level.INFO, "Geting view model activities of user with ID:: " + userId);
         ArrayList<Activity> activitis;
-        ArrayList<ViewActivity> viewActivitis = new ArrayList<>();
+        ArrayList<ActivityTo> viewActivitis = new ArrayList<>();
         try {
             User logedUser = userService.getUserById(userId);
             User selectedUser;
@@ -108,7 +108,7 @@ public class ActivityController {
                 if (a.getTodo() != null) {
                     a.setTodo(todoService.getTodoById(a.getTodo().getID()));
                 }
-                viewActivitis.add(new ViewActivity(a));
+                viewActivitis.add(new ActivityTo(a));
             }
             return new ResponseEntity<>(viewActivitis, HttpStatus.OK);
         } catch (StatusException ex) {

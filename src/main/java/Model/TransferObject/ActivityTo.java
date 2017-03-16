@@ -2,12 +2,12 @@
  * @author jakubvacek
  */
 //Simplified model used in tables
-package Model.ViewModel;
+package Model.TransferObject;
 
 import Model.Activity;
 import java.sql.Timestamp;
 
-public class ViewActivity {
+public class ActivityTo {
 
     //Basic info
     private final int ID;
@@ -24,7 +24,7 @@ public class ViewActivity {
     private final String projectName;
     private final Integer projectId;
 
-    public ViewActivity(Activity activity) {
+    public ActivityTo(Activity activity) {
         this.ID = activity.getID();
         this.createdOn = activity.getCreatedOn();
         this.description = activity.getDescription();

@@ -5,7 +5,7 @@ package Controller;
 
 import Core.StatusException;
 import Model.Project;
-import Model.ViewModel.ViewProject;
+import Model.TransferObject.ProjectTo;
 import Service.ProjectServiceImpl;
 import Service.TodoServiceImpl;
 import Service.UserServiceImpl;
@@ -44,7 +44,7 @@ public class ProjectController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/project", method = RequestMethod.PUT)
+    @RequestMapping(value = "/project", method = RequestMethod.POST)
     public ResponseEntity<Void> createProject(@RequestBody Project project, @RequestParam(value = "id", defaultValue = "0") int userId) {
         try {
             LOG.log(Level.INFO, "Creating project");
@@ -85,15 +85,15 @@ public class ProjectController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/projectsOfUser", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<ViewProject>> getProjectsOfUser(@RequestParam(value = "id", defaultValue = "0") int userId) {
-        ArrayList<ViewProject> projects;
+    public ResponseEntity<ArrayList<ProjectTo>> getProjectsOfUser(@RequestParam(value = "id", defaultValue = "0") int userId) {
+        ArrayList<ProjectTo> projects;
         try {
             LOG.log(Level.INFO, "Geting projects of user with id: " + userId);            
             //Get items and sort them acording to createdOn then map items to view models
             projects = projectService.getProjectsOfUser(userId)
                     .stream().sorted((first, second)
                      -> first.getCreatedOn().compareTo(second.getCreatedOn()))
-                    .map(item -> new ViewProject(item))
+                    .map(item -> new ProjectTo(item))
                     .collect(Collectors.toCollection(ArrayList::new));
             return new ResponseEntity<>(projects, HttpStatus.OK);
         } catch (StatusException ex) {
@@ -130,10 +130,10 @@ public class ProjectController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/project", method = RequestMethod.GET)
-    public ResponseEntity<ViewProject> getProjectBy(@RequestParam(value = "id") int projectId) {
+    public ResponseEntity<ProjectTo> getProjectBy(@RequestParam(value = "id") int projectId) {
         try {
             LOG.log(Level.INFO, "Geting project with id: " + projectId);
-            return new ResponseEntity<>(new ViewProject(projectService.getProjectById(projectId)), HttpStatus.OK);
+            return new ResponseEntity<>(new ProjectTo(projectService.getProjectById(projectId)), HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.status);
