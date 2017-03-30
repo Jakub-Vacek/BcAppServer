@@ -44,7 +44,7 @@ public class ProjectController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/project", method = RequestMethod.POST)
+    @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public ResponseEntity<Void> createProject(@RequestBody Project project, @RequestParam(value = "id", defaultValue = "0") int userId) {
         try {
             LOG.log(Level.INFO, "Creating project");
@@ -65,8 +65,8 @@ public class ProjectController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/projectDetail", method = RequestMethod.GET)
-    public ResponseEntity<Project> getProjectDetail(@RequestParam(value = "id") int projectId) {
+    @RequestMapping(value = "/projects", method = RequestMethod.GET, params="projectId")
+    public ResponseEntity<Project> getProjectDetail(@RequestParam(value = "projectId") int projectId) {
         try {
             LOG.log(Level.INFO, "Geting project detail with id: " + projectId);
             Project project = projectService.getProjectById(projectId);
@@ -84,8 +84,8 @@ public class ProjectController {
      * @return ArrayList of list in JSON
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/projectsOfUser", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<ProjectTo>> getProjectsOfUser(@RequestParam(value = "id", defaultValue = "0") int userId) {
+    @RequestMapping(value = "/projects", method = RequestMethod.GET, params="userId")
+    public ResponseEntity<ArrayList<ProjectTo>> getProjectsOfUser(@RequestParam(value = "userId") int userId) {
         ArrayList<ProjectTo> projects;
         try {
             LOG.log(Level.INFO, "Geting projects of user with id: " + userId);            
@@ -109,8 +109,8 @@ public class ProjectController {
      * @return ResponeseEntity with OK/NOT_FOUND status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/project", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteProject(@RequestParam(value = "id", defaultValue = "0") int projectId) {
+    @RequestMapping(value = "/projects", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteProject(@RequestParam(value = "projectId") int projectId) {
         try {
             LOG.log(Level.INFO, "Deleting project with id: " + projectId);
             todoService.deleteTodosOfProject(projectId);
@@ -121,23 +121,4 @@ public class ProjectController {
             return new ResponseEntity<>(ex.status);
         }
     }
-
-    /**
-     * get Project by id
-     *
-     * @param projectId of project from client
-     * @return ResponeseEntity with OK status
-     */
-    @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/project", method = RequestMethod.GET)
-    public ResponseEntity<ProjectTo> getProjectBy(@RequestParam(value = "id") int projectId) {
-        try {
-            LOG.log(Level.INFO, "Geting project with id: " + projectId);
-            return new ResponseEntity<>(new ProjectTo(projectService.getProjectById(projectId)), HttpStatus.OK);
-        } catch (StatusException ex) {
-            LOG.log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(ex.status);
-        }
-    }
-
 }

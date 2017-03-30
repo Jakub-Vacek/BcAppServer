@@ -51,7 +51,7 @@ public class ActivityController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/activity", method = RequestMethod.POST)
+    @RequestMapping(value = "/activities", method = RequestMethod.POST)
     public ResponseEntity<Void> createActivity(@RequestBody Activity activity, @RequestParam(value = "projectId", required = false) Integer projectId, @RequestParam(value = "todoId", required = false) Integer todoId, @RequestParam(value = "logedUserId") int logedUserId, @RequestParam(value = "selectedUserId") int selectedUserId) {
         LOG.log(Level.INFO, "Creating activity with todoID: " + todoId + ", projectId: " + projectId + ", logedUserID: " + logedUserId + " selectedUser " + selectedUserId + " activity message: " + activity.getDescription());
         activity.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
@@ -87,9 +87,9 @@ public class ActivityController {
      * @return ArrayList of viewActivity in JSON
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/activity", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<ActivityTo>> getActivitiesOfUser(@RequestParam(value = "id") int userId) {
-        LOG.log(Level.INFO, "Geting view model activities of user with ID:: " + userId);
+    @RequestMapping(value = "/activities", method = RequestMethod.GET, params="userId")
+    public ResponseEntity<ArrayList<ActivityTo>> getActivitiesOfUser(@RequestParam(value = "userId") int userId) {
+        LOG.log(Level.INFO, "Geting activities transfer object of user with ID: " + userId);
         ArrayList<Activity> activitis;
         ArrayList<ActivityTo> viewActivitis = new ArrayList<>();
         try {
@@ -124,8 +124,8 @@ public class ActivityController {
      * @return Activity witch all atributes fetched in JSON
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/activityDetail", method = RequestMethod.GET)
-    public ResponseEntity<Activity> getActivityDetail(@RequestParam(value = "id") int Id) {
+    @RequestMapping(value = "/activities", method = RequestMethod.GET, params="activityId")
+    public ResponseEntity<Activity> getActivityDetail(@RequestParam(value = "activityId") int Id) {
         LOG.log(Level.INFO, "Geting activity detail of activity with ID:: " + Id);
         try {
             Activity activity = activityService.getActivityByid(Id);

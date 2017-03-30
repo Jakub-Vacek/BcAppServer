@@ -44,7 +44,7 @@ public class UserController {
      * @return ArrayList of user in JSON
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ResponseEntity<ArrayList<UserTo>> getUsers() {
         LOG.log(Level.INFO, "Geting users");
         ArrayList<UserTo> users;
@@ -69,7 +69,7 @@ public class UserController {
      * @return id of created user
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody User user) {
         LOG.log(Level.INFO, "Creating user");
         try {
@@ -89,7 +89,7 @@ public class UserController {
      * @return ResponeseEntity with OK/NOT_FOUND status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/users", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@RequestParam(value = "id", defaultValue = "0") int userId) {
         LOG.log(Level.INFO, "Deleting user with id: " + userId);
         try {
@@ -113,8 +113,8 @@ public class UserController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/userDetail", method = RequestMethod.GET)
-    public ResponseEntity<User> getUserDetail(@RequestParam(value = "id") int userId) {
+    @RequestMapping(value = "/users", method = RequestMethod.GET, params="userId")
+    public ResponseEntity<User> getUserDetail(@RequestParam(value = "userId") int userId) {
         try {
             LOG.log(Level.INFO, "Geting detil of user with id: " + userId);
             return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);

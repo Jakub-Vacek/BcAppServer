@@ -45,8 +45,8 @@ public class TodoController {
      * @return ArrayList of todo in JSON
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/todoDetail", method = RequestMethod.GET)
-    public ResponseEntity<Todo> getTodoDetail(@RequestParam(value = "id") int id) {
+    @RequestMapping(value = "/todos", method = RequestMethod.GET, params="todoId")
+    public ResponseEntity<Todo> getTodoDetail(@RequestParam(value = "todoId") int id) {
         LOG.log(Level.INFO, "Geting detail of todo with id: " + id);
         Todo todo;
         try {
@@ -69,8 +69,8 @@ public class TodoController {
      * @return ArrayList of todo in JSON
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/todosOfProject", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<TodoTo>> getTodosOProject(@RequestParam(value = "id") int projectId) {
+    @RequestMapping(value = "/todos", method = RequestMethod.GET, params="projectId")
+    public ResponseEntity<ArrayList<TodoTo>> getTodosOProject(@RequestParam(value = "projectId") int projectId) {
         LOG.log(Level.INFO, "Geting todos of project with id: " + projectId);
         ArrayList<TodoTo> todos;
         try {
@@ -94,7 +94,7 @@ public class TodoController {
      * @return ResponeseEntity with OK/NOT_FOUND status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/todo", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/todos", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteTodo(@RequestParam(value = "todoId") int todoId, @RequestParam(value = "listId") int projectId) {
         LOG.log(Level.INFO, "Deleting todo with id: " + todoId);
         try {
@@ -115,7 +115,7 @@ public class TodoController {
      * @return ResponeseEntity with OK/NOT_FOUND status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/todo", method = RequestMethod.PUT)
+    @RequestMapping(value = "/todos", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateTodo(@RequestBody Todo todo, @RequestParam(value = "id", defaultValue = "0") int projectId) {
         LOG.log(Level.INFO, "Updating todo");
         try {
@@ -144,7 +144,7 @@ public class TodoController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/todo", method = RequestMethod.POST)
+    @RequestMapping(value = "/todos", method = RequestMethod.POST)
     public ResponseEntity<Void> createTodo(@RequestBody Todo todo, @RequestParam(value = "id", defaultValue = "0") int projectID) {
         LOG.log(Level.INFO, "Creating todo");
         try {
