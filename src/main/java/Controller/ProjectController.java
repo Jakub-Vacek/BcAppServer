@@ -45,7 +45,7 @@ public class ProjectController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
-    public ResponseEntity<Void> createProject(@RequestBody Project project, @RequestParam(value = "id", defaultValue = "0") int userId) {
+    public ResponseEntity<Void> createProject(@RequestBody Project project, @RequestParam(value = "userId") int userId) {
         try {
             LOG.log(Level.INFO, "Creating project");
             project.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
@@ -65,13 +65,17 @@ public class ProjectController {
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/projects", method = RequestMethod.GET, params="projectId")
-    public ResponseEntity<ProjectTo> getProjectDetail(@RequestParam(value = "projectId") int projectId) {
+    @RequestMapping(value = "/projects", method = RequestMethod.GET, params = "projectId")
+    public ResponseEntity<ProjectTo> getProjectDetail(@RequestParam(value = "projectId") int projectId, @RequestParam(value = "fetchDetailInfo") boolean fetchDetailInfo) {
         try {
-            LOG.log(Level.INFO, "Geting project detail with id: " + projectId);
+            if (fetchDetailInfo) {
+                LOG.log(Level.INFO, "Geting project detail with id: " + projectId);
+            } else {
+                LOG.log(Level.INFO, "Geting project with id: " + projectId);
+            }
             Project project = projectService.getProjectById(projectId);
             project.setUser(userService.getUserById(project.getUser().getID()));
-            return new ResponseEntity<>(new ProjectTo(project, true), HttpStatus.OK);
+            return new ResponseEntity<>(new ProjectTo(project, fetchDetailInfo), HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.status);
@@ -81,19 +85,20 @@ public class ProjectController {
     /**
      * Gets lists of specified user
      *
+     * @param userId id of user
      * @return ArrayList of list in JSON
      */
     @CrossOrigin(origins = "http://localhost:8383")
-    @RequestMapping(value = "/projects", method = RequestMethod.GET, params="userId")
+    @RequestMapping(value = "/projects", method = RequestMethod.GET, params = "userId")
     public ResponseEntity<ArrayList<ProjectTo>> getProjectsOfUser(@RequestParam(value = "userId") int userId) {
         ArrayList<ProjectTo> projects;
         try {
-            LOG.log(Level.INFO, "Geting projects of user with id: " + userId);            
+            LOG.log(Level.INFO, "Geting projects of user with id: " + userId);
             //Get items and sort them acording to createdOn then map items to view models
             projects = projectService.getProjectsOfUser(userId)
                     .stream().sorted((first, second)
-                     -> first.getCreatedOn().compareTo(second.getCreatedOn()))
-                    .map(item -> new ProjectTo(item,false)) //dont fetch detail information
+                            -> first.getCreatedOn().compareTo(second.getCreatedOn()))
+                    .map(item -> new ProjectTo(item, false)) //dont fetch detail information
                     .collect(Collectors.toCollection(ArrayList::new));
             return new ResponseEntity<>(projects, HttpStatus.OK);
         } catch (StatusException ex) {

@@ -90,7 +90,7 @@ public class UserController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/users", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteUser(@RequestParam(value = "id", defaultValue = "0") int userId) {
+    public ResponseEntity<Void> deleteUser(@RequestParam(value = "userId", defaultValue = "0") int userId) {
         LOG.log(Level.INFO, "Deleting user with id: " + userId);
         try {
             ArrayList<Project> projects = projectService.getProjectsOfUser(userId);

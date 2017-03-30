@@ -94,7 +94,7 @@ public class TodoController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todos", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteTodo(@RequestParam(value = "todoId") int todoId, @RequestParam(value = "listId") int projectId) {
+    public ResponseEntity<Void> deleteTodo(@RequestParam(value = "todoId") int todoId, @RequestParam(value = "projectId") int projectId) {
         LOG.log(Level.INFO, "Deleting todo with id: " + todoId);
         try {
             todoService.deleteTodo(todoId);
@@ -115,7 +115,7 @@ public class TodoController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todos", method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateTodo(@RequestBody Todo todo, @RequestParam(value = "id", defaultValue = "0") int projectId) {
+    public ResponseEntity<Void> updateTodo(@RequestBody Todo todo, @RequestParam(value = "projectId") int projectId) {
         LOG.log(Level.INFO, "Updating todo");
         try {
             Todo todoFromDatabase = todoService.getTodoById(todo.getID());
@@ -144,7 +144,7 @@ public class TodoController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todos", method = RequestMethod.POST)
-    public ResponseEntity<Void> createTodo(@RequestBody Todo todo, @RequestParam(value = "id", defaultValue = "0") int projectID) {
+    public ResponseEntity<Void> createTodo(@RequestBody Todo todo, @RequestParam(value = "id") int projectID) {
         LOG.log(Level.INFO, "Creating todo");
         try {
             todo.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
