@@ -46,16 +46,15 @@ public class TodoController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todos", method = RequestMethod.GET, params="todoId")
-    public ResponseEntity<Todo> getTodoDetail(@RequestParam(value = "todoId") int id) {
+    public ResponseEntity<TodoTo> getTodoDetail(@RequestParam(value = "todoId") int id) {
         LOG.log(Level.INFO, "Geting detail of todo with id: " + id);
         Todo todo;
         try {
             todo = todoService.getTodoById(id);
-            //User user = userService.getUserById(todo.getProject().getUser().getID());
             Project project = projectService.getProjectById(todo.getProject().getID());
             project.setUser(userService.getUserById(project.getUser().getID()));
             todo.setProject(project);
-            return new ResponseEntity<>(todo, HttpStatus.OK);
+            return new ResponseEntity<>(new TodoTo(todo,true), HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.status);
@@ -77,7 +76,7 @@ public class TodoController {
             //Get items and map items to view models
             todos = todoService.getTodosOfProject(projectId)
                     .stream()
-                    .map(item -> new TodoTo(item))
+                    .map(item -> new TodoTo(item,false))
                     .collect(Collectors.toCollection(ArrayList::new));
             return new ResponseEntity<>(todos, HttpStatus.OK);
         } catch (StatusException ex) {

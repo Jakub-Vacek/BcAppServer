@@ -66,12 +66,12 @@ public class ProjectController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/projects", method = RequestMethod.GET, params="projectId")
-    public ResponseEntity<Project> getProjectDetail(@RequestParam(value = "projectId") int projectId) {
+    public ResponseEntity<ProjectTo> getProjectDetail(@RequestParam(value = "projectId") int projectId) {
         try {
             LOG.log(Level.INFO, "Geting project detail with id: " + projectId);
             Project project = projectService.getProjectById(projectId);
             project.setUser(userService.getUserById(project.getUser().getID()));
-            return new ResponseEntity<>(project, HttpStatus.OK);
+            return new ResponseEntity<>(new ProjectTo(project, true), HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.status);
@@ -93,7 +93,7 @@ public class ProjectController {
             projects = projectService.getProjectsOfUser(userId)
                     .stream().sorted((first, second)
                      -> first.getCreatedOn().compareTo(second.getCreatedOn()))
-                    .map(item -> new ProjectTo(item))
+                    .map(item -> new ProjectTo(item,false)) //dont fetch detail information
                     .collect(Collectors.toCollection(ArrayList::new));
             return new ResponseEntity<>(projects, HttpStatus.OK);
         } catch (StatusException ex) {

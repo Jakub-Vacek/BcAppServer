@@ -114,10 +114,10 @@ public class UserController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/users", method = RequestMethod.GET, params="userId")
-    public ResponseEntity<User> getUserDetail(@RequestParam(value = "userId") int userId) {
+    public ResponseEntity<UserTo> getUserDetail(@RequestParam(value = "userId") int userId) {
         try {
             LOG.log(Level.INFO, "Geting detil of user with id: " + userId);
-            return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
+            return new ResponseEntity<>(new UserTo(userService.getUserById(userId)), HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.status);

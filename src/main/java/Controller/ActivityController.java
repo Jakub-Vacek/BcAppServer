@@ -108,7 +108,7 @@ public class ActivityController {
                 if (a.getTodo() != null) {
                     a.setTodo(todoService.getTodoById(a.getTodo().getID()));
                 }
-                viewActivitis.add(new ActivityTo(a));
+                viewActivitis.add(new ActivityTo(a,false));
             }
             return new ResponseEntity<>(viewActivitis, HttpStatus.OK);
         } catch (StatusException ex) {
@@ -125,15 +125,13 @@ public class ActivityController {
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/activities", method = RequestMethod.GET, params="activityId")
-    public ResponseEntity<Activity> getActivityDetail(@RequestParam(value = "activityId") int Id) {
+    public ResponseEntity<ActivityTo> getActivityDetail(@RequestParam(value = "activityId") int Id) {
         LOG.log(Level.INFO, "Geting activity detail of activity with ID:: " + Id);
         try {
             Activity activity = activityService.getActivityByid(Id);
             //Seting loged and selected user
             User logedUser = userService.getUserById(activity.getLogedUser().getID());
             User selectedUser = userService.getUserById(activity.getSelectedUser().getID());
-            logedUser.setPasswordHash("");
-            selectedUser.setPasswordHash("");
             activity.setLogedUser(logedUser);
             activity.setSelectedUser(selectedUser);
             //seting project
@@ -144,7 +142,7 @@ public class ActivityController {
             if (activity.getTodo() != null) {
                 activity.setTodo(todoService.getTodoById(activity.getTodo().getID()));
             }
-            return new ResponseEntity<>(activity, HttpStatus.OK);
+            return new ResponseEntity<>(new ActivityTo(activity,true), HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.status);

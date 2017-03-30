@@ -15,43 +15,72 @@ public class ActivityTo {
     private final Timestamp createdOn;
     //User
     private final String username;
-    private final int userId;
     private final String userRole;
     //Todo
     private final String todoDescription;
-    private final Integer todoId;
     //Project
     private final String projectName;
-    private final Integer projectId;
+    //Detail information
+    private final TodoTo todo;
+    private final ProjectTo project;
+    private final UserTo logedUser;
+    private final UserTo selectedUser;
 
-    public ActivityTo(Activity activity) {
+    public ActivityTo(Activity activity, boolean fetchDetailInfo) {
         this.ID = activity.getID();
         this.createdOn = activity.getCreatedOn();
         this.description = activity.getDescription();
-        //User
-        this.userId = activity.getLogedUser().getID();
+        //Users
         this.username = activity.getLogedUser().getUsername();
         this.userRole = activity.getLogedUser().getRole();
+        if (fetchDetailInfo) {
+            this.logedUser = new UserTo(activity.getLogedUser());
+            this.selectedUser = new UserTo(activity.getSelectedUser());
+        } else {
+            this.selectedUser = null;
+            this.logedUser = null;
+        }
         //Todo
         if (activity.getTodo() != null) {
             this.todoDescription = activity.getTodo().getDescription();
-            this.todoId = activity.getTodo().getID();
-
+            if (fetchDetailInfo) {
+                this.todo = new TodoTo(activity.getTodo(), false);
+            } else {
+                this.todo = null;
+            }
         } else {
             this.todoDescription = null;
-            this.todoId = null;
+            this.todo = null;
         }
         //Project
         if (activity.getProject() != null) {
             this.projectName = activity.getProject().getName();
-            this.projectId = activity.getProject().getID();
-
+            if (fetchDetailInfo) {
+                this.project = new ProjectTo(activity.getProject(), false);
+            } else {
+                this.project = null;
+            }
         } else {
             this.projectName = null;
-            this.projectId = null;
-
+            this.project = null;
         }
 
+    }
+
+    public TodoTo getTodo() {
+        return todo;
+    }
+
+    public ProjectTo getProject() {
+        return project;
+    }
+
+    public UserTo getLogedUser() {
+        return logedUser;
+    }
+
+    public UserTo getSelectedUser() {
+        return selectedUser;
     }
 
     public int getID() {
@@ -70,10 +99,6 @@ public class ActivityTo {
         return username;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
     public String getUserRole() {
         return userRole;
     }
@@ -82,18 +107,7 @@ public class ActivityTo {
         return todoDescription;
     }
 
-    public Integer getTodoId() {
-        return todoId;
-    }
-
     public String getProjectName() {
         return projectName;
     }
-
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-  
-
 }
