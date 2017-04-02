@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+//This class represents user
 @DatabaseTable(tableName = "users")
 public class User {
 

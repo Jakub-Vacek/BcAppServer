@@ -7,6 +7,7 @@ package Model.TransferObject;
 import Model.Activity;
 import java.sql.Timestamp;
 
+//This class represents transfer model of activity
 public class ActivityTo {
 
     //Basic info

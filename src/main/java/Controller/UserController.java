@@ -91,7 +91,7 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/users", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@RequestParam(value = "userId", defaultValue = "0") int userId) {
-        LOG.log(Level.INFO, "Deleting user with id: " + userId);
+        LOG.log(Level.INFO, "Deleting user with id: {0}", userId);
         try {
             ArrayList<Project> projects = projectService.getProjectsOfUser(userId);
             for (Project p : projects) {
@@ -116,7 +116,7 @@ public class UserController {
     @RequestMapping(value = "/users", method = RequestMethod.GET, params="userId")
     public ResponseEntity<UserTo> getUserDetail(@RequestParam(value = "userId") int userId) {
         try {
-            LOG.log(Level.INFO, "Geting detil of user with id: " + userId);
+            LOG.log(Level.INFO, "Geting detil of user with id: {0}", userId);
             return new ResponseEntity<>(new UserTo(userService.getUserById(userId)), HttpStatus.OK);
         } catch (StatusException ex) {
             LOG.log(Level.SEVERE, null, ex);

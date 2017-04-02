@@ -1,12 +1,13 @@
 /**
  * @author jakubvacek
  */
-//Simplified model used in tables
+
 package Model.TransferObject;
 
 import Model.Project;
 import java.sql.Timestamp;
 
+//This class represents transfer model of project
 public class ProjectTo {
 
     private final int ID;

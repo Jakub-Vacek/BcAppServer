@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+//This class represents one todo in project
 @DatabaseTable(tableName = "todos")
 public class Todo {
 

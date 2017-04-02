@@ -9,6 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+//This class represents one prject of user
 @DatabaseTable(tableName = "projects")
 public class Project {
  @DatabaseField(generatedId = true)

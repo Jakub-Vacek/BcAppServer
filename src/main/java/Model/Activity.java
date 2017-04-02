@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+//This class represents one activity of user
 @DatabaseTable(tableName = "Activities")
 public class Activity {
     @DatabaseField(canBeNull = false, foreign = true, columnName = "logedUserID")

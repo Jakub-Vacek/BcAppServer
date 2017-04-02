@@ -62,6 +62,7 @@ public class ProjectController {
      * get Project detail
      *
      * @param projectId of project from client
+     * @param fetchDetailInfo if true method fetches all the details 
      * @return ResponeseEntity with OK status
      */
     @CrossOrigin(origins = "http://localhost:8383")
@@ -69,9 +70,9 @@ public class ProjectController {
     public ResponseEntity<ProjectTo> getProjectDetail(@RequestParam(value = "projectId") int projectId, @RequestParam(value = "fetchDetailInfo") boolean fetchDetailInfo) {
         try {
             if (fetchDetailInfo) {
-                LOG.log(Level.INFO, "Geting project detail with id: " + projectId);
+                LOG.log(Level.INFO, "Geting project detail with id: {0}", projectId);
             } else {
-                LOG.log(Level.INFO, "Geting project with id: " + projectId);
+                LOG.log(Level.INFO, "Geting project with id: {0}", projectId);
             }
             Project project = projectService.getProjectById(projectId);
             project.setUser(userService.getUserById(project.getUser().getID()));
@@ -93,7 +94,7 @@ public class ProjectController {
     public ResponseEntity<ArrayList<ProjectTo>> getProjectsOfUser(@RequestParam(value = "userId") int userId) {
         ArrayList<ProjectTo> projects;
         try {
-            LOG.log(Level.INFO, "Geting projects of user with id: " + userId);
+            LOG.log(Level.INFO, "Geting projects of user with id: {0}", userId);
             //Get items and sort them acording to createdOn then map items to view models
             projects = projectService.getProjectsOfUser(userId)
                     .stream().sorted((first, second)
@@ -117,7 +118,7 @@ public class ProjectController {
     @RequestMapping(value = "/projects", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteProject(@RequestParam(value = "projectId") int projectId) {
         try {
-            LOG.log(Level.INFO, "Deleting project with id: " + projectId);
+            LOG.log(Level.INFO, "Deleting project with id: {0}", projectId);
             todoService.deleteTodosOfProject(projectId);
             projectService.deleteProjectById(projectId);
             return new ResponseEntity<>(HttpStatus.OK);

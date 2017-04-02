@@ -53,7 +53,7 @@ public class ActivityController {
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/activities", method = RequestMethod.POST)
     public ResponseEntity<Void> createActivity(@RequestBody Activity activity, @RequestParam(value = "projectId", required = false) Integer projectId, @RequestParam(value = "todoId", required = false) Integer todoId, @RequestParam(value = "logedUserId") int logedUserId, @RequestParam(value = "selectedUserId") int selectedUserId) {
-        LOG.log(Level.INFO, "Creating activity with todoID: " + todoId + ", projectId: " + projectId + ", logedUserID: " + logedUserId + " selectedUser " + selectedUserId + " activity message: " + activity.getDescription());
+        LOG.log(Level.INFO, "Creating activity with todoID: {0}, projectId: {1}, logedUserID: {2} selectedUser {3} activity message: {4}", new Object[]{todoId, projectId, logedUserId, selectedUserId, activity.getDescription()});
         activity.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
         try {
             if (todoId != null) {
@@ -89,7 +89,7 @@ public class ActivityController {
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/activities", method = RequestMethod.GET, params="userId")
     public ResponseEntity<ArrayList<ActivityTo>> getActivitiesOfUser(@RequestParam(value = "userId") int userId) {
-        LOG.log(Level.INFO, "Geting activities transfer object of user with ID: " + userId);
+        LOG.log(Level.INFO, "Geting activities transfer object of user with ID: {0}", userId);
         ArrayList<Activity> activitis;
         ArrayList<ActivityTo> viewActivitis = new ArrayList<>();
         try {
@@ -126,7 +126,7 @@ public class ActivityController {
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/activities", method = RequestMethod.GET, params="activityId")
     public ResponseEntity<ActivityTo> getActivityDetail(@RequestParam(value = "activityId") int Id) {
-        LOG.log(Level.INFO, "Geting activity detail of activity with ID:: " + Id);
+        LOG.log(Level.INFO, "Geting activity detail of activity with ID:: {0}", Id);
         try {
             Activity activity = activityService.getActivityByid(Id);
             //Seting loged and selected user

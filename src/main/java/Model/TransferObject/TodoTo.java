@@ -1,12 +1,12 @@
 /**
  * @author jakubvacek
  */
-//Simplified model used in tables
 package Model.TransferObject;
 
 import Model.Todo;
 import java.sql.Timestamp;
 
+//This class represents transfer model of todo
 public class TodoTo {
 
     private final int ID;

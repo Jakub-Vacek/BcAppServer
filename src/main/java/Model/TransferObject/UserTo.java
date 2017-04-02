@@ -1,12 +1,12 @@
 /**
  * @author jakubvacek
  */
-//Simplified model used in tables
 package Model.TransferObject;
 
 import Model.User;
 import java.sql.Timestamp;
 
+//This class represents transfer model of user
 public class UserTo {
     private final int ID;
     private final String username;

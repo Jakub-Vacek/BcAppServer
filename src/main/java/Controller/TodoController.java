@@ -39,15 +39,14 @@ public class TodoController {
     private UserServiceImpl userService;
 
     /**
-     *
-     * Lists all todos
-     *
+     * Get detail of specified todo
+     * @param id id of todo
      * @return ArrayList of todo in JSON
      */
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todos", method = RequestMethod.GET, params="todoId")
     public ResponseEntity<TodoTo> getTodoDetail(@RequestParam(value = "todoId") int id) {
-        LOG.log(Level.INFO, "Geting detail of todo with id: " + id);
+        LOG.log(Level.INFO, "Geting detail of todo with id: {0}", id);
         Todo todo;
         try {
             todo = todoService.getTodoById(id);
@@ -70,7 +69,7 @@ public class TodoController {
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todos", method = RequestMethod.GET, params="projectId")
     public ResponseEntity<ArrayList<TodoTo>> getTodosOProject(@RequestParam(value = "projectId") int projectId) {
-        LOG.log(Level.INFO, "Geting todos of project with id: " + projectId);
+        LOG.log(Level.INFO, "Geting todos of project with id: {0}", projectId);
         ArrayList<TodoTo> todos;
         try {
             //Get items and map items to view models
@@ -95,7 +94,7 @@ public class TodoController {
     @CrossOrigin(origins = "http://localhost:8383")
     @RequestMapping(value = "/todos", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteTodo(@RequestParam(value = "todoId") int todoId, @RequestParam(value = "projectId") int projectId) {
-        LOG.log(Level.INFO, "Deleting todo with id: " + todoId);
+        LOG.log(Level.INFO, "Deleting todo with id: {0}", todoId);
         try {
             todoService.deleteTodo(todoId);
             this.updateProjectStatus(projectId);
