@@ -1,6 +1,6 @@
 package Core;
 
-//import Mock.MockDataInitializer;
+import Mock.MockDataInitializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
