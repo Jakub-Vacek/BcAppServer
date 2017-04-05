@@ -58,12 +58,10 @@ public class MockDataInitializer {
     }
 
     public final void dummyData() throws SQLException {
-        User a = new User(0, "Franta Lala", "a", "ADMIN", "mraveniště", Timestamp.valueOf(LocalDateTime.now()));
-        a.setID(this.createUser(a));
-        User ad = new User(0, "Admin", "a", "ADMIN", "admin", Timestamp.valueOf(LocalDateTime.now()));
-        ad.setID(this.createUser(ad));
-        User franta = new User(0, "User", "a", "USER", "test-user", Timestamp.valueOf(LocalDateTime.now()));
-        franta.setID(this.createUser(franta));
+        User admin = new User(0, "Admin", "Admin", "ADMIN", "test-admin", Timestamp.valueOf(LocalDateTime.now()));
+        this.createUser(admin);
+        User user = new User(0, "User", "User", "USER", "test-user", Timestamp.valueOf(LocalDateTime.now()));
+        this.createUser(user);
     }
 
     public int createUser(User user) throws SQLException {
